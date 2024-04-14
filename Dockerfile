@@ -1,6 +1,6 @@
-FROM docker.io/eclipse-temurin:22
+FROM docker.io/eclipse-temurin:22-jre
 
-RUN wget -O /opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+RUN wget -q -O /opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
 
 ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
 

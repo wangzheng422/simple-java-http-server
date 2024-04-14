@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: ./
+    environment:
+      OTEL_SERVICE_NAME: "agent-example-app"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318"
+      # Logs are disabled by default
+      OTEL_LOGS_EXPORTER: "otlp"
+      # Optional specify file configuration instead of using environment variable scheme
+      # To use, call "export OTEL_CONFIG_FILE=/sdk-config.yaml" before calling docker compose up
+      OTEL_CONFIG_FILE:
+      WZH_URL: "http://45.76.171.203:13000"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - collector
+  collector:
+    image: otel/opentelemetry-collector-contrib:0.98.0
+    volumes:
+      - ./collector-config.yaml:/collector-config.yaml
+    command: ["--config=/collector-config.yaml"]
+    expose:
+      - "4318"
+    ports:
+      - "4318:4318"

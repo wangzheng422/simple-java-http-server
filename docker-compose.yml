@@ -18,7 +18,7 @@ services:
   collector:
     image: otel/opentelemetry-collector-contrib:0.98.0
     volumes:
-      - ./collector-config.yaml:/collector-config.yaml
+      - ./collector-config.yaml:/collector-config.yaml:Z
     command: ["--config=/collector-config.yaml"]
     expose:
       - "4318"

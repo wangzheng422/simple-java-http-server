@@ -28,7 +28,7 @@ public class MyController {
 
   private void sendHttpRequest() {
     RestTemplate restTemplate = new RestTemplate();
-    String backendUrl = "http://baidu.com";  // 替换为你的后端URL
+    String backendUrl = System.getenv("WZH_URL");
     ResponseEntity<String> response = restTemplate.getForEntity(backendUrl, String.class);
     LOGGER.info("Response status code: " + response.getStatusCode());
   }

@@ -1,6 +1,6 @@
-FROM docker.io/rocky:9
+FROM docker.io/rockylinux:9
 
-RUN dnf update -y && dnf install -y java-latest-openjdk
+RUN dnf update -y && dnf install -y java-latest-openjdk && dnf clean all
 
 ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
 

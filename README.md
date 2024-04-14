@@ -18,12 +18,16 @@ cd /data/simple-java-http-server
 mvn clean package
 
 
-# create container image
-podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.14 ./
+# create container image for simple version
+podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.14 -f Dockerfile.simple ./
 
 
-# run 
+# run with agent
 podman-compose up --build
+
+
+# test
+curl -vvv http://localhost:8080/sendRequest
 
 
 ```

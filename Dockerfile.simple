@@ -1,0 +1,5 @@
+FROM docker.io/eclipse-temurin:22-jre
+
+ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
+
+ENTRYPOINT java -jar /http-service-1.0-SNAPSHOT.jar

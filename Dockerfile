@@ -1,11 +1,9 @@
-FROM docker.io/rockylinux:9
-
-RUN dnf update -y && \
-    dnf install -y epel-release && \
-    dnf update -y && \
-    dnf install -y java-latest-openjdk-headless && \
-    dnf clean all
+FROM docker.io/eclipse-temurin:22
 
 ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
 
-ENTRYPOINT java -jar /http-service-1.0-SNAPSHOT.jar
+RUN wget -O /opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+
+# CMD ["java", "-jar", "/http-service-1.0-SNAPSHOT.jar"]
+
+ENTRYPOINT java -jar -javaagent:/opentelemetry-javaagent.jar /http-service-1.0-SNAPSHOT.jar

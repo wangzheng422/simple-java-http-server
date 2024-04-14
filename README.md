@@ -26,5 +26,4 @@ podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-2024
 podman-compose up --build
 
 
-
 ```

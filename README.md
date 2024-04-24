@@ -19,9 +19,9 @@ mvn clean package
 
 
 # create container image for simple version, which will not copy javaagent.jar to the container
-podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.14 -f Dockerfile.simple ./
+podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.24 -f Dockerfile.simple ./
 
-podman push quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.14
+podman push quay.io/wangzheng422/qimgs:simple-java-http-server-2024.04.24
 
 # run with javaagent and collector, to see the result locally
 podman-compose up --build

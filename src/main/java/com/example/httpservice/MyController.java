@@ -18,19 +18,20 @@ public class MyController {
   private final Random random = new Random();
 
   @GetMapping("/sendRequest")
-  public String sendRequest() throws InterruptedException {
+  public ResponseEntity<String> sendRequest() throws InterruptedException {
     LOGGER.info("sendRequest");
     int sleepTime = random.nextInt(200);
     Thread.sleep(sleepTime);
-    sendHttpRequest();
-    return "Request sent. Check the console for the status code.";
+    String response = sendHttpRequest();
+    return ResponseEntity.ok(response);
   }
 
-  private void sendHttpRequest() {
+  private String sendHttpRequest() {
     RestTemplate restTemplate = new RestTemplate();
     String backendUrl = System.getenv("WZH_URL");
     ResponseEntity<String> response = restTemplate.getForEntity(backendUrl, String.class);
     LOGGER.info("Response status code: " + response.getStatusCode());
+    return response.getBody();
   }
 
 }

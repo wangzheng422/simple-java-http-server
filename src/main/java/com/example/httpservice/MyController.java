@@ -20,8 +20,32 @@ public class MyController {
   @GetMapping("/sendRequest")
   public ResponseEntity<String> sendRequest() throws InterruptedException {
     LOGGER.info("sendRequest");
-    int sleepTime = random.nextInt(200);
-    Thread.sleep(sleepTime);
+    // int sleepTime = random.nextInt(200);
+    // Thread.sleep(sleepTime);
+
+    int maxThreads = Integer.parseInt(System.getenv().getOrDefault("WZH_MAX_THREADS", "1000"));
+    LOGGER.info("Max threads: " + maxThreads);
+
+    Thread t = new Thread(() -> {
+        try {
+            for (int i = 0; i < maxThreads; i++) {
+              new Thread(() -> {
+                try {
+                  LOGGER.info(Thread.currentThread().getName());
+                  sendHttpRequest();
+                  Thread.currentThread().join();
+                } catch (InterruptedException e) {
+                }
+              }).start();
+            }
+        } catch (OutOfMemoryError oome) {
+            oome.printStackTrace();
+            // Thread.currentThread().getThreadGroup().interrupt();
+        }
+    });
+    t.start();
+    t.join();
+
     String response = sendHttpRequest();
     return ResponseEntity.ok(response);
   }

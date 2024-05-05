@@ -32,3 +32,24 @@ curl -vvv http://localhost:8080/sendRequest
 
 
 ```
+
+## run multi-conn python backend
+
+```bash
+
+cd /data/py.test
+cat << EOF > httpdemo.py
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+
+def run(server_class=ThreadingHTTPServer, handler_class=SimpleHTTPRequestHandler):
+    server_address = ('', 13000)
+    httpd = server_class(server_address, handler_class)
+    httpd.serve_forever()
+
+if __name__ == '__main__':
+    run()
+EOF
+
+python3 httpdemo.py
+
+```

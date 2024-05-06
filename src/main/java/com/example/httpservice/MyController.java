@@ -61,7 +61,6 @@ public class MyController {
                 } catch (Exception e) {
                     // handle exception
                     e.printStackTrace();
-                    Thread.currentThread().getThreadGroup().interrupt();
                 }
             });
         }

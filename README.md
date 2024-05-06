@@ -26,6 +26,7 @@ podman push quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.0
 
 # run with simple version
 podman run -it --rm -p 8080:8080 \
+    --name 'simple-java-http-server-threads' \
     -e WZH_URL="http://10.5.96.3:13000/file.txt" \
     quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.06
 

@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:22-jre
+FROM docker.io/eclipse-temurin:21-jre
 
 RUN wget -q -O /opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
 

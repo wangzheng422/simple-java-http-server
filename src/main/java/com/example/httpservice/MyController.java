@@ -40,7 +40,8 @@ public class MyController {
             }
         } catch (OutOfMemoryError oome) {
             oome.printStackTrace();
-            Thread.currentThread().getThreadGroup().interrupt();
+            // Thread.currentThread().getThreadGroup().interrupt();
+            Thread.currentThread().interrupt();
         }
     });
     t.start();

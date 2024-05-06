@@ -60,6 +60,7 @@ public class MyController {
                 } catch (Exception e) {
                     // handle exception
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             });
         }

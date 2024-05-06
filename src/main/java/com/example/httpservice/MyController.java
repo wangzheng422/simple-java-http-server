@@ -27,6 +27,7 @@ public class MyController {
     // Thread.sleep(sleepTime);
 
     int maxThreads = Integer.parseInt(System.getenv().getOrDefault("WZH_MAX_THREADS", "1000"));
+    int timeoutMins = Integer.parseInt(System.getenv().getOrDefault("WZH_TIMEOUT_MINS", "1"));
     LOGGER.info("Max threads: " + maxThreads);
 
     // Thread t = new Thread(() -> {
@@ -65,7 +66,7 @@ public class MyController {
             });
         }
         executorService.shutdown();
-        if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
+        if (!executorService.awaitTermination(timeoutMins, TimeUnit.MINUTES)) {
             executorService.shutdownNow();
         }
     } catch (InterruptedException e) {

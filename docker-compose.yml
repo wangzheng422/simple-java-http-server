@@ -10,7 +10,7 @@ services:
       # Optional specify file configuration instead of using environment variable scheme
       # To use, call "export OTEL_CONFIG_FILE=/sdk-config.yaml" before calling docker compose up
       OTEL_CONFIG_FILE:
-      WZH_URL: "https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20240422.0-x86_64-dvd1.iso.manifest"
+      WZH_URL: "http://127.0.0.1:13000/file.txt"
     ports:
       - "8080:8080"
     depends_on:

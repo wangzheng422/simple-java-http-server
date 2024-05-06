@@ -38,8 +38,17 @@ curl -vvv http://localhost:8080/sendRequest
 ## run multi-conn python backend
 
 ```bash
-
+mkdir -p /data/py.test
 cd /data/py.test
+
+# dd if=/dev/urandom of=random_file.txt bs=100KB count=1
+
+# create random ascii text file, with 100kb size
+cat /dev/urandom | tr -dc 'A-Za-z0-9' | head -c $((100*1024)) > file.txt
+echo >> file.txt
+echo >> file.txt
+
+
 cat << EOF > httpdemo.py
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 

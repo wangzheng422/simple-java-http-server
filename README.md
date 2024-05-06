@@ -6,6 +6,12 @@ simple java server with backend call
 
 ```bash
 
+# on vultr
+dnf install -y java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel
+
+dnf install -y /usr/bin/podman-compose /usr/bin/mvn
+
+
 # checkout
 mkdir -p /data
 cd /data

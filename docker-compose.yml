@@ -10,7 +10,7 @@ services:
       # Optional specify file configuration instead of using environment variable scheme
       # To use, call "export OTEL_CONFIG_FILE=/sdk-config.yaml" before calling docker compose up
       OTEL_CONFIG_FILE:
-      WZH_URL: "http://127.0.0.1:13000/file.txt"
+      WZH_URL: "http://10.5.96.3:13000/file.txt"
     ports:
       - "8080:8080"
     depends_on:

@@ -64,7 +64,7 @@ public class MyController {
             });
         }
         executorService.shutdown();
-        if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
+        if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
             executorService.shutdownNow();
         }
     } catch (InterruptedException e) {

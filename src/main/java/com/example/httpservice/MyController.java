@@ -9,6 +9,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class MyController {
@@ -26,26 +29,48 @@ public class MyController {
     int maxThreads = Integer.parseInt(System.getenv().getOrDefault("WZH_MAX_THREADS", "1000"));
     LOGGER.info("Max threads: " + maxThreads);
 
-    Thread t = new Thread(() -> {
-        try {
-            for (int i = 0; i < maxThreads; i++) {
-              new Thread(() -> {
+    // Thread t = new Thread(() -> {
+    //     try {
+    //         for (int i = 0; i < maxThreads; i++) {
+    //           new Thread(() -> {
+    //             try {
+    //               LOGGER.info(Thread.currentThread().getName());
+    //               sendHttpRequest();
+    //               Thread.currentThread().join();
+    //             } catch (InterruptedException e) {
+    //             }
+    //           }).start();
+    //         }
+    //     } catch (OutOfMemoryError oome) {
+    //         oome.printStackTrace();
+    //         // Thread.currentThread().getThreadGroup().interrupt();
+    //         Thread.currentThread().interrupt();
+    //     }
+    // });
+    // t.start();
+    // t.join();
+
+    ExecutorService executorService = Executors.newFixedThreadPool(maxThreads);
+    try {
+        for (int i = 0; i < maxThreads; i++) {
+            executorService.submit(() -> {
                 try {
-                  LOGGER.info(Thread.currentThread().getName());
-                  sendHttpRequest();
-                  Thread.currentThread().join();
-                } catch (InterruptedException e) {
+                    LOGGER.info(Thread.currentThread().getName());
+                    sendHttpRequest();
+                } catch (Exception e) {
+                    // handle exception
+                    e.printStackTrace();
                 }
-              }).start();
-            }
-        } catch (OutOfMemoryError oome) {
-            oome.printStackTrace();
-            // Thread.currentThread().getThreadGroup().interrupt();
-            Thread.currentThread().interrupt();
+            });
         }
-    });
-    t.start();
-    t.join();
+        executorService.shutdown();
+        if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
+            executorService.shutdownNow();
+        }
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+        executorService.shutdownNow();
+    }
 
     String response = sendHttpRequest();
     return ResponseEntity.ok(response);

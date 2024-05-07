@@ -1,6 +1,8 @@
 # simple-java-http-server
-simple java server with backend call
 
+simple java server with backend call.
+
+This branch, the app will create 1000 thread to call backend service, for each rest api call. To simulate buggy app behavior. Finally, it will OOM, because of too many threads.
 
 # build
 

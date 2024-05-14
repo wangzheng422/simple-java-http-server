@@ -23,9 +23,11 @@ git clone https://github.com/wangzheng422/simple-java-http-server
 
 # build jar
 cd /data/simple-java-http-server
-git checkout threads
+git checkout thread.agent.jar
 
 mvn clean package
+
+mvn clean build
 
 # create container image for simple version, which will not copy javaagent.jar to the container
 podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.06.v01 -f Dockerfile.simple ./

@@ -27,19 +27,18 @@ git checkout thread.agent.jar
 
 mvn clean package
 
-mvn clean build
 
 # create container image for simple version, which will not copy javaagent.jar to the container
-podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.06.v01 -f Dockerfile.simple ./
+podman build --squash -t quay.io/wangzheng422/qimgs:simple-java-http-server-threads-cryostat-agent-2024.05.14.v01 -f Dockerfile.simple ./
 
-podman push quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.06.v01
+podman push quay.io/wangzheng422/qimgs:simple-java-http-server-threads-cryostat-agent-2024.05.14.v01
 
 # run with simple version
 podman run -it --rm -p 8080:8080 \
     --name 'simple-java-http-server-threads' \
     -e WZH_URL="http://10.5.96.3:13000/file.txt" \
     -e JAVA_OPTS="-Dcom.sun.management.jmxremote.port=9091 -Dcom.sun.management.jmxremote.authenticate=false" \
-    quay.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.05.06.v01
+    quay.io/wangzheng422/qimgs:simple-java-http-server-threads-cryostat-agent-2024.05.14.v01
 
 # run with javaagent and collector, to see the result locally
 podman-compose up --build

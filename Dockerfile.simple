@@ -1,7 +1,9 @@
 FROM docker.io/eclipse-temurin:21-jre-ubi9-minimal
 
-ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
+COPY target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
+
+COPY target/dependency/cryostat-agent-shaded.jar /cryostat-agent-shaded.jar
 
 ENV JAVA_OPTS=""
 
-ENTRYPOINT java ${JAVA_OPTS} -jar /http-service-1.0-SNAPSHOT.jar
+ENTRYPOINT java ${JAVA_OPTS} -javaagent:/cryostat-agent-shaded.jar -jar /http-service-1.0-SNAPSHOT.jar

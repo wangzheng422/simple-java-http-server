@@ -6,4 +6,4 @@ ADD target/http-service-1.0-SNAPSHOT.jar /http-service-1.0-SNAPSHOT.jar
 
 # CMD ["java", "-jar", "/http-service-1.0-SNAPSHOT.jar"]
 
-ENTRYPOINT java -jar -javaagent:/opentelemetry-javaagent.jar /http-service-1.0-SNAPSHOT.jar
+ENTRYPOINT java -javaagent:/opentelemetry-javaagent.jar -jar /http-service-1.0-SNAPSHOT.jar

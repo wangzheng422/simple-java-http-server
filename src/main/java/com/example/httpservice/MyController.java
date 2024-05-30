@@ -76,7 +76,7 @@ public class MyController {
     public ResponseEntity<String> dumpHeapApi() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         String dateTime = LocalDateTime.now().format(dtf);
-        String dump_dir = System.getenv().getOrDefault("HEAP_DUMP_DIR", "/wzh_log");
+        String dump_dir = System.getenv().getOrDefault("HEAP_DUMP_DIR", "/wzh-log");
         String dump_path = dump_dir + "/heap-dump_" + dateTime + ".hprof";
         dumpHeap(dump_path, true);
         return ResponseEntity.ok("Heap dump created");

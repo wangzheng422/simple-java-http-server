@@ -19,6 +19,8 @@ import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.web.bind.annotation.GetMapping;
+
 @RestController
 public class MyController {
 
@@ -91,4 +93,8 @@ public class MyController {
         }
     }
 
+    @GetMapping("/crashapi")
+    public void crashApi() {
+        throw new RuntimeException("Crashing the app");
+    }
 }

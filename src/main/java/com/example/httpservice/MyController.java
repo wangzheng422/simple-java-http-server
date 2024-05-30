@@ -79,7 +79,7 @@ public class MyController {
         String dump_dir = System.getenv().getOrDefault("HEAP_DUMP_DIR", "/wzh-log");
         String dump_path = dump_dir + "/heap-dump_" + dateTime + ".hprof";
         dumpHeap(dump_path, true);
-        return ResponseEntity.ok("Heap dump created");
+        return ResponseEntity.ok("Heap dump created\n");
     }
 
     private void dumpHeap(String filePath, boolean live) {
@@ -95,6 +95,9 @@ public class MyController {
 
     @GetMapping("/crashapi")
     public void crashApi() {
-        throw new RuntimeException("Crashing the app");
+        // throw new RuntimeException("Crashing the app\n");
+        new Thread(() -> {
+            throw new RuntimeException("Crashing the app\n");
+        }).start();
     }
 }

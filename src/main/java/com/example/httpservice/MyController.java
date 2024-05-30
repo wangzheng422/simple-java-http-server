@@ -96,8 +96,9 @@ public class MyController {
     @GetMapping("/crashapi")
     public void crashApi() {
         // throw new RuntimeException("Crashing the app\n");
-        new Thread(() -> {
-            throw new RuntimeException("Crashing the app\n");
-        }).start();
+        // new Thread(() -> {
+        //     throw new RuntimeException("Crashing the app\n");
+        // }).start();
+        System.exit(1);
     }
 }

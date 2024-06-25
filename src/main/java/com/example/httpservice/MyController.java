@@ -2,12 +2,15 @@ package com.example.httpservice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,6 +30,8 @@ public class MyController {
     private static final Logger LOGGER = LogManager.getLogger(MyController.class);
 
     private final Random random = new Random();
+
+    private static final List<byte[]> memoryConsumers = new ArrayList<>();
 
     @GetMapping("/sendRequest")
     public ResponseEntity<String> sendRequest() throws InterruptedException {
@@ -100,5 +105,44 @@ public class MyController {
         //     throw new RuntimeException("Crashing the app\n");
         // }).start();
         System.exit(1);
+    }
+
+    @GetMapping("/consume-memory")
+    public ResponseEntity<String> consumeMemory(@RequestParam("size") String size) {
+        long bytesToAllocate = parseSizeToBytes(size);
+        if (bytesToAllocate <= 0) {
+            return ResponseEntity.badRequest().body("Invalid size format");
+        }
+        try {
+            byte[] block = new byte[(int) bytesToAllocate];
+            memoryConsumers.add(block);
+            return ResponseEntity.ok("Allocated " + size + " of memory");
+        } catch (OutOfMemoryError e) {
+            return ResponseEntity.internalServerError().body("Not enough memory available");
+        }
+    }
+
+    @GetMapping("/release-memory")
+    public ResponseEntity<String> releaseMemory() {
+        memoryConsumers.clear();
+        System.gc(); // Suggest garbage collection, but it's not guaranteed to run immediately
+        return ResponseEntity.ok("Memory released");
+    }
+
+    private long parseSizeToBytes(String size) {
+        long factor = 1;
+        size = size.toUpperCase();
+        if (size.endsWith("GB")) {
+            factor = 1024 * 1024 * 1024;
+        } else if (size.endsWith("MB")) {
+            factor = 1024 * 1024;
+        } else if (size.endsWith("KB")) {
+            factor = 1024;
+        }
+        try {
+            return Long.parseLong(size.replaceAll("[^0-9]", "")) * factor;
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 }

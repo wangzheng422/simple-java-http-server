@@ -114,8 +114,14 @@ public class MyController {
             return ResponseEntity.badRequest().body("Invalid size format");
         }
         try {
-            byte[] block = new byte[(int) bytesToAllocate];
-            memoryConsumers.add(block);
+            final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8; // Safe max size for an array
+            long remainingBytes = bytesToAllocate;
+            while (remainingBytes > 0) {
+                int currentChunkSize = (int) Math.min(remainingBytes, MAX_ARRAY_SIZE);
+                byte[] block = new byte[currentChunkSize];
+                memoryConsumers.add(block);
+                remainingBytes -= currentChunkSize;
+            }
             return ResponseEntity.ok("Allocated " + size + " of memory");
         } catch (OutOfMemoryError e) {
             return ResponseEntity.internalServerError().body("Not enough memory available");

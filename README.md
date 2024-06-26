@@ -28,9 +28,9 @@ git checkout threads
 mvn clean package
 
 # create container image for simple version, which will not copy javaagent.jar to the container
-podman build --squash -t docker.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.06.26.v01 -f Dockerfile.simple ./
+podman build --squash -t docker.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.06.26.v02 -f Dockerfile.simple ./
 
-podman push docker.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.06.26.v01
+podman push docker.io/wangzheng422/qimgs:simple-java-http-server-threads-2024.06.26.v02
 
 # run with simple version
 podman run -it --rm -p 8080:8080 \

@@ -33,6 +33,8 @@ public class MyController {
 
     private static final List<byte[]> memoryConsumers = new ArrayList<>();
 
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     @GetMapping("/sendRequest")
     public ResponseEntity<String> sendRequest() throws InterruptedException {
         LOGGER.info("sendRequest");
@@ -85,7 +87,11 @@ public class MyController {
         String dump_path = dump_dir + "/heap-dump_" + dateTime + ".hprof";
         // dumpHeap(dump_path, true);
         // Run dumpHeap in a separate thread
-        new Thread(() -> dumpHeap(dump_path, true)).start();
+        // new Thread(() -> dumpHeap(dump_path, true)).start();
+
+        // Submit dumpHeap task to the executor service
+        executorService.submit(() -> dumpHeap(dump_path, true));
+
         return ResponseEntity.ok("Heap dump created\n");
     }
 

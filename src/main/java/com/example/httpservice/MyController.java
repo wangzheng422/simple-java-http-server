@@ -83,7 +83,9 @@ public class MyController {
         String dateTime = LocalDateTime.now().format(dtf);
         String dump_dir = System.getenv().getOrDefault("HEAP_DUMP_DIR", "/wzh-log");
         String dump_path = dump_dir + "/heap-dump_" + dateTime + ".hprof";
-        dumpHeap(dump_path, true);
+        // dumpHeap(dump_path, true);
+        // Run dumpHeap in a separate thread
+        new Thread(() -> dumpHeap(dump_path, true)).start();
         return ResponseEntity.ok("Heap dump created\n");
     }
 
